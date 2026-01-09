@@ -22,6 +22,6 @@
         app:backgroundTint="#25D366"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="Chat de Soporte" />
+        android:contentDescription="Chat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
