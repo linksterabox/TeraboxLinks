@@ -29,28 +29,28 @@ public class MainActivity extends AppCompatActivity {
         myWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // Manejo de enlaces externos (PayPal, TeraBox, WhatsApp)
-                if (url.contains("paypal.com") || url.contains("terabox.com") || url.startsWith("whatsapp://") || url.startsWith("intent://")) {
+                // Manejar TeraBox, PayPal y esquemas de intencion externos
+                if (url.contains("terabox.com") || url.contains("paypal.com") || url.startsWith("whatsapp://") || url.startsWith("intent://")) {
                     try {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(intent);
                         return true;
                     } catch (Exception e) {
-                        // Si falla la app externa, intentar cargar en el navegador del sistema
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(browserIntent);
-                        return true;
+                        return false;
                     }
                 }
-                return false; // Carga el resto en el WebView
+                return false;
             }
         });
 
+        // Tu URL de GitHub Pages
         myWebView.loadUrl("https://linksterabox.github.io");
 
+        // Boton de Chat de Soporte (WhatsApp)
         fabChat.setOnClickListener(v -> {
-            String wpUrl = "https://wa.me/1234567890"; // CAMBIA ESTO POR TU NUMERO
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(wpUrl)));
+            String whatsappUrl = "https://wa.me/+525621896010"; // Reemplaza con tu numero real
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(whatsappUrl));
+            startActivity(intent);
         });
     }
 
