@@ -22,6 +22,6 @@
         app:backgroundTint="#25D366"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="WhatsApp Chat" />
+        android:contentDescription="Chat de Soporte" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
