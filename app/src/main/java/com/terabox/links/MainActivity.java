@@ -3,7 +3,6 @@ package com.terabox.links;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,39 +21,36 @@ public class MainActivity extends AppCompatActivity {
         myWebView = findViewById(R.id.webview);
         FloatingActionButton fabChat = findViewById(R.id.fab_chat);
 
-        WebSettings webSettings = myWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setDatabaseEnabled(true);
+        WebSettings settings = myWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
 
         myWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // Manejo de links de PayPal y TeraBox para abrirlos correctamente
-                if (url.contains("paypal.com") || url.contains("terabox.com") || url.startsWith("intent://")) {
+                // Manejo de enlaces externos (PayPal, TeraBox, WhatsApp)
+                if (url.contains("paypal.com") || url.contains("terabox.com") || url.startsWith("whatsapp://") || url.startsWith("intent://")) {
                     try {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(intent);
                         return true;
                     } catch (Exception e) {
-                        return false; 
+                        // Si falla la app externa, intentar cargar en el navegador del sistema
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(browserIntent);
+                        return true;
                     }
                 }
-                return false; // Carga normal dentro del WebView
+                return false; // Carga el resto en el WebView
             }
         });
 
         myWebView.loadUrl("https://linksterabox.github.io");
 
-        // Configuración del botón de Chat
-        fabChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Reemplaza con tu número de WhatsApp
-                String wpUrl = "https://wa.me/+525621896010"; 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(wpUrl));
-                startActivity(intent);
-            }
+        fabChat.setOnClickListener(v -> {
+            String wpUrl = "https://wa.me/1234567890"; // CAMBIA ESTO POR TU NUMERO
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(wpUrl)));
         });
     }
 
