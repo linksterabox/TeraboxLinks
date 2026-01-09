@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Reemplaza con tu número de WhatsApp
-                String wpUrl = "https://wa.me/1234567890"; 
+                String wpUrl = "https://wa.me/+525621896010"; 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(wpUrl));
                 startActivity(intent);
             }
