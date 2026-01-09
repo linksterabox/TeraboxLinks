@@ -28,20 +28,19 @@ public class MainActivity extends AppCompatActivity {
         myWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // Esta lógica obliga a abrir TODOS los links en el navegador externo
+                // Obligar a que todos los clics abran el navegador externo (Chrome, etc)
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(intent);
-                return true; // Indica que la app ya manejó el link
+                return true; 
             }
         });
 
-        // Carga tu página de inicio
+        // Tu URL de GitHub Pages
         myWebView.loadUrl("https://linksterabox.github.io");
 
-        // Botón de Chat de WhatsApp
         fabChat.setOnClickListener(v -> {
-            String whatsappUrl = "https://wa.me/+525621896010"; // Reemplaza con tu número
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(whatsappUrl));
+            // Reemplaza con tu número de WhatsApp real
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/1234567890"));
             startActivity(intent);
         });
     }
