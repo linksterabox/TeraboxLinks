@@ -24,31 +24,23 @@ public class MainActivity extends AppCompatActivity {
         WebSettings settings = myWebView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
-        settings.setDatabaseEnabled(true);
 
         myWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // Manejar TeraBox, PayPal y esquemas de intencion externos
-                if (url.contains("terabox.com") || url.contains("paypal.com") || url.startsWith("whatsapp://") || url.startsWith("intent://")) {
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(intent);
-                        return true;
-                    } catch (Exception e) {
-                        return false;
-                    }
-                }
-                return false;
+                // Esta lógica obliga a abrir TODOS los links en el navegador externo
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intent);
+                return true; // Indica que la app ya manejó el link
             }
         });
 
-        // Tu URL de GitHub Pages
+        // Carga tu página de inicio
         myWebView.loadUrl("https://linksterabox.github.io");
 
-        // Boton de Chat de Soporte (WhatsApp)
+        // Botón de Chat de WhatsApp
         fabChat.setOnClickListener(v -> {
-            String whatsappUrl = "https://wa.me/+525621896010"; // Reemplaza con tu numero real
+            String whatsappUrl = "https://wa.me/1234567890"; // Reemplaza con tu número
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(whatsappUrl));
             startActivity(intent);
         });
