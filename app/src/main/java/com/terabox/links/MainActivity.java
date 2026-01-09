@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Botón de Chat de WhatsApp
         fabChat.setOnClickListener(v -> {
-            String whatsappUrl = "https://wa.me/1234567890"; // Reemplaza con tu número
+            String whatsappUrl = "https://wa.me/+525621896010"; // Reemplaza con tu número
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(whatsappUrl));
             startActivity(intent);
         });
