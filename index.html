@@ -34,24 +34,23 @@
             }
         }
 
-        /* Estilos Ultra-Visibles reducidos a la mitad para el botón flotante sobre EmulatorJS */
         #close-emulator-left {
             position: fixed !important;
             top: 8px !important;
             left: 8px !important;
-            z-index: 9999999 !important; /* Capa superior absoluta por encima del canvas del juego */
+            z-index: 9999999 !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             gap: 4px !important;
-            background-color: #ef4444 !important; /* Rojo brillante intenso */
+            background-color: #ef4444 !important;
             color: #ffffff !important;
             font-family: 'Space Grotesk', sans-serif !important;
             font-weight: 900 !important;
-            font-size: 9px !important; /* Fuente reducida */
-            padding: 5px 9px !important; /* Padding reducido a la mitad */
-            border: 1.5px solid #ffffff !important; /* Borde más delgado pero contrastado */
-            border-radius: 50px !important; 
+            font-size: 9px !important;
+            padding: 5px 9px !important;
+            border: 1.5px solid #ffffff !important;
+            border-radius: 50px !important;
             box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.6), inset 0px 1px 2px rgba(255,255,255,0.3) !important;
             cursor: pointer !important;
             text-transform: uppercase !important;
@@ -71,7 +70,7 @@
 <body class="bg-slate-950 text-slate-100 h-screen w-screen flex flex-col md:flex-row antialiased select-none overflow-hidden">
 
     <div class="portrait-warning fixed inset-0 bg-slate-950 z-[100] hidden flex-col items-center justify-center p-6 text-center bg-cover bg-center bg-no-repeat" 
-         style="background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('URL_DE_TU_IMAGEN_AQUI');">
+         style="background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23334155%22 stroke-width=%221%22><rect x=%225%22 y=%222%22 width=%2214%22 height=%2220%22 rx=%222%22/></svg>');">
         
         <div class="w-16 h-16 bg-rose-600 rounded-full flex items-center justify-center animate-bounce mb-4 shadow-lg shadow-rose-600/50">
             <i data-lucide="rotate-cw" class="w-8 h-8 text-white"></i>
@@ -184,6 +183,7 @@
     </main>
 
     <script>
+        // Corrección de registro relativa a GitHub Pages (usa './sw.js')
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
@@ -215,88 +215,63 @@
         };
 
         const gbaDatabase = [
-            // --- ATARI 2600 ---
             { title: "PAC-MAN", region: "USA", genre: "Otros", year: "1982", dev: "Atari", system: "atari2600" },
             { title: "SPACE INVADERS", region: "USA", genre: "Acción", year: "1980", dev: "Atari", system: "atari2600" },
             { title: "PITFALL!", region: "USA", genre: "Plataformas", year: "1982", dev: "Activision", system: "atari2600" },
-            // --- NINTENDO (NES) ---
             { title: "SUPER MARIO BROS.", region: "USA", genre: "Plataformas", year: "1985", dev: "Nintendo", system: "nes" },
             { title: "THE LEGEND OF ZELDA", region: "USA", genre: "Acción", year: "1986", dev: "Nintendo", system: "nes" },
             { title: "METROID", region: "USA", genre: "Acción", year: "1986", dev: "Nintendo", system: "nes" },
-            // --- SUPER NINTENDO (SNES) ---
             { title: "SUPER MARIO WORLD", region: "USA", genre: "Plataformas", year: "1990", dev: "Nintendo", system: "snes" },
             { title: "CHRONO TRIGGER", region: "USA", genre: "RPG", year: "1995", dev: "Square", system: "snes" },
             { title: "DONKEY KONG COUNTRY", region: "USA", genre: "Plataformas", year: "1994", dev: "Rare", system: "snes" },
-            // --- NINTENDO 64 ---
             { title: "SUPER MARIO 64", region: "USA", genre: "Plataformas", year: "1996", dev: "Nintendo", system: "n64" },
             { title: "THE LEGEND OF ZELDA: OCARINA OF TIME", region: "USA", genre: "Acción", year: "1998", dev: "Nintendo", system: "n64" },
             { title: "MARIO KART 64", region: "USA", genre: "Carreras", year: "1996", dev: "Nintendo", system: "n64" },
-            // --- GAME BOY ---
             { title: "TETRIS", region: "USA", genre: "Otros", year: "1989", dev: "Nintendo", system: "gb" },
             { title: "POKÉMON RED VERSION", region: "USA", genre: "RPG", year: "1996", dev: "Game Freak", system: "gb" },
             { title: "SUPER MARIO LAND", region: "USA", genre: "Plataformas", year: "1989", dev: "Nintendo", system: "gb" },
-            // --- GAME BOY COLOR ---
             { title: "POKÉMON CRYSTAL VERSION", region: "USA", genre: "RPG", year: "2000", dev: "Game Freak", system: "gbc" },
             { title: "THE LEGEND OF ZELDA: ORACLE OF AGES", region: "USA", genre: "Acción", year: "2001", dev: "Capcom", system: "gbc" },
             { title: "SUPER MARIO BROS. DELUXE", region: "USA", genre: "Plataformas", year: "1999", dev: "Nintendo", system: "gbc" },
-            // --- SEGA 32X ---
             { title: "SONIC KOSTAS 32X", region: "USA", genre: "Plataformas", year: "1995", dev: "Sega", system: "sega32x" },
             { title: "VIRTUA FIGHTER", region: "USA", genre: "Peleas", year: "1995", dev: "Sega", system: "sega32x" },
             { title: "DOOM 32X", region: "USA", genre: "Acción", year: "1994", dev: "id Software", system: "sega32x" },
-            // --- SEGA GAME GEAR ---
             { title: "SONIC THE HEDGEHOG", region: "USA", genre: "Plataformas", year: "1991", dev: "Ancient", system: "gamegear" },
             { title: "DEFENDER OF OASIS", region: "USA", genre: "RPG", year: "1992", dev: "Sega", system: "gamegear" },
             { title: "TAILS ADVENTURE", region: "USA", genre: "Plataformas", year: "1995", dev: "Sega", system: "gamegear" },
-            // --- SEGA GENESIS / MEGA DRIVE ---
             { title: "SONIC THE HEDGEHOG 2", region: "USA", genre: "Plataformas", year: "1992", dev: "Sega", system: "megadrive" },
             { title: "STREETS OF RAGE 2", region: "USA", genre: "Acción", year: "1992", dev: "Sega", system: "megadrive" },
             { title: "ALADDIN GENESIS", region: "USA", genre: "Plataformas", year: "1993", dev: "Virgin Games", system: "megadrive" },
-            // --- SEGA MASTER SYSTEM ---
             { title: "ALEX KIDD IN MIRACLE WORLD", region: "USA", genre: "Plataformas", year: "1986", dev: "Sega", system: "sms" },
             { title: "PHANTASY STAR", region: "USA", genre: "RPG", year: "1987", dev: "Sega", system: "sms" },
             { title: "SONIC THE HEDGEHOG SMS", region: "USA", genre: "Plataformas", year: "1991", dev: "Ancient", system: "sms" },
-            // --- PLAYSTATION 1 ---
             { title: "CASTELEVANIA: SYMPHONY OF THE NIGHT", region: "USA", genre: "Acción", year: "1997", dev: "Konami", system: "psx" },
             { title: "CRASH BANDICOOT", region: "USA", genre: "Plataformas", year: "1996", dev: "Naughty Dog", system: "psx" },
             { title: "METAL GEAR SOLID", region: "USA", genre: "Acción", year: "1998", dev: "Konami", system: "psx" },
-            // --- PLAYSTATION PORTABLE (PSP) ---
             { title: "DISSIDIA FINAL FANTASY", region: "USA", genre: "Peleas", year: "2008", dev: "Square Enix", system: "psp" },
             { title: "LOCOROCO", region: "USA", genre: "Plataformas", year: "2006", dev: "Japan Studio", system: "psp" },
             { title: "TEKKEN 6", region: "USA", genre: "Peleas", year: "2009", dev: "Bandai Namco", system: "psp" },
-            // --- CAPCOM PLAY SYSTEM 1 ---
             { title: "STREET FIGHTER II: THE WORLD WARRIOR", region: "USA", genre: "Peleas", year: "1991", dev: "Capcom", system: "cps1" },
             { title: "FINAL FIGHT", region: "USA", genre: "Acción", year: "1989", dev: "Capcom", system: "cps1" },
             { title: "CAPTAIN COMMANDO", region: "USA", genre: "Acción", year: "1991", dev: "Capcom", system: "cps1" },
-            // --- CAPCOM PLAY SYSTEM 2 ---
             { title: "SUPER STREET FIGHTER II TURBO", region: "USA", genre: "Peleas", year: "1994", dev: "Capcom", system: "cps2" },
             { title: "MARVEL VS. CAPCOM: CLASH OF SUPER HEROES", region: "USA", genre: "Peleas", year: "1998", dev: "Capcom", system: "cps2" },
             { title: "ALIEN VS. PREDATOR", region: "USA", genre: "Acción", year: "1994", dev: "Capcom", system: "cps2" },
-            // --- CAPCOM PLAY SYSTEM 3 ---
             { title: "STREET FIGHTER III 3RD STRIKE", region: "USA", genre: "Peleas", year: "1999", dev: "Capcom", system: "cps3" },
             { title: "JOJO'S BIZARRE ADVENTURE", region: "USA", genre: "Peleas", year: "1999", dev: "Capcom", system: "cps3" },
             { title: "RED EARTH", region: "USA", genre: "Peleas", year: "1996", dev: "Capcom", system: "cps3" },
-            // --- SEGA DREAMCAST ---
             { title: "SONIC ADVENTURE", region: "USA", genre: "Plataformas", year: "1998", dev: "Sonic Team", system: "dreamcast" },
             { title: "CRAZY TAXI", region: "USA", genre: "Carreras", year: "1999", dev: "Hitmaker", system: "dreamcast" },
             { title: "SHENMUE", region: "USA", genre: "RPG", year: "1999", dev: "Sega AM2", system: "dreamcast" },
-            // --- MAME ---
             { title: "METAL SLUG", region: "USA", genre: "Acción", year: "1996", dev: "Nazca", system: "mame" },
             { title: "PAC-MAN ARCADE", region: "USA", genre: "Otros", year: "1980", dev: "Namco", system: "mame" },
             { title: "DONKEY KONG", region: "USA", genre: "Plataformas", year: "1981", dev: "Nintendo", system: "mame" },
-            // --- GAME BOY ADVANCE ---
             { title: "ADVANCE WARS", region: "USA", genre: "Estrategia", year: "2001", dev: "Intelligent Systems", system: "gba" },
             { title: "POKÉMON RUBY VERSION", region: "USA", genre: "RPG", year: "2002", dev: "Game Freak", system: "gba" },
             { title: "METROID FUSION", region: "USA", genre: "Acción", year: "2002", dev: "Nintendo R&D1", system: "gba" }
         ];
 
-        let activeFilters = {
-            search: '',
-            region: 'all',
-            letter: 'all',
-            genre: 'all',
-            console: 'all'
-        };
-
+        let activeFilters = { search: '', region: 'all', letter: 'all', genre: 'all', console: 'all' };
         let db;
         const dbRequest = indexedDB.open("RetroOS_ROMs_Cache", 1);
         dbRequest.onupgradeneeded = (e) => {
@@ -318,15 +293,15 @@
         function toggleFullscreen(enter = true) {
             const docEl = document.documentElement;
             if (enter) {
-                if (docEl.requestFullscreen) { docEl.requestFullscreen(); }
-                else if (docEl.mozRequestFullScreen) { docEl.mozRequestFullScreen(); }
-                else if (docEl.webkitRequestFullscreen) { docEl.webkitRequestFullscreen(); }
-                else if (docEl.msRequestFullscreen) { docEl.msRequestFullscreen(); }
+                if (docEl.requestFullscreen) docEl.requestFullscreen();
+                else if (docEl.mozRequestFullScreen) docEl.mozRequestFullScreen();
+                else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+                else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
             } else {
-                if (document.exitFullscreen) { document.exitFullscreen(); }
-                else if (document.mozCancelFullScreen) { document.mozCancelFullScreen(); }
-                else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
-                else if (document.msExitFullscreen) { document.msExitFullscreen(); }
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                else if (document.msExitFullscreen) document.msExitFullscreen();
             }
         }
 
@@ -338,7 +313,6 @@
                 const sys = consoleDetails[sysKey];
                 const button = document.createElement('button');
                 button.setAttribute('data-system', sysKey);
-                
                 button.className = "flex items-center gap-2 md:gap-3 px-3 py-1.5 md:py-2.5 rounded-xl text-[11px] font-bold tracking-wide transition-all uppercase shrink-0 text-left w-auto md:w-full border " + 
                     (activeFilters.console === sysKey 
                         ? `bg-gradient-to-r ${sys.color} text-white border-rose-500 shadow-md shadow-black/50` 
@@ -348,13 +322,7 @@
                     <i data-lucide="${sys.icon}" class="w-3.5 h-3.5 shrink-0 ${activeFilters.console === sysKey ? 'text-rose-400' : ''}"></i>
                     <span class="whitespace-nowrap truncate">${sys.name}</span>
                 `;
-
-                button.addEventListener('click', () => {
-                    activeFilters.console = sysKey;
-                    buildConsoleMenu(); 
-                    renderGames();
-                });
-
+                button.addEventListener('click', () => { activeFilters.console = sysKey; buildConsoleMenu(); renderGames(); });
                 menu.appendChild(button);
             });
             lucide.createIcons();
@@ -367,31 +335,24 @@
 
             const filtered = gbaDatabase.filter(game => {
                 const searchCleaned = cleanString(activeFilters.search);
-                const matchesSearch = !activeFilters.search || 
-                    cleanString(game.title).includes(searchCleaned) || 
-                    cleanString(game.dev).includes(searchCleaned);
-
+                const matchesSearch = !activeFilters.search || cleanString(game.title).includes(searchCleaned) || cleanString(game.dev).includes(searchCleaned);
                 const matchesRegion = activeFilters.region === 'all' || game.region === activeFilters.region;
                 const matchesLetter = activeFilters.letter === 'all' || game.title.toUpperCase().startsWith(activeFilters.letter);
                 const matchesGenre = activeFilters.genre === 'all' || game.genre === activeFilters.genre;
                 const matchesConsole = activeFilters.console === 'all' || game.system === activeFilters.console;
-
                 return matchesSearch && matchesRegion && matchesLetter && matchesGenre && matchesConsole;
             });
 
             document.getElementById('global-counter').textContent = `${filtered.length} / ${gbaDatabase.length} ROMS FILTRADAS`;
 
-            if (filtered.length === 0) {
-                noResults.classList.remove('hidden');
-                return;
-            }
+            if (filtered.length === 0) { noResults.classList.remove('hidden'); return; }
             noResults.classList.add('hidden');
 
             filtered.forEach(game => {
                 const card = document.createElement('div');
                 card.className = "bg-slate-900/60 backdrop-blur border border-slate-800/80 hover:border-rose-500 rounded-xl p-3 flex flex-col justify-between transition-all group relative overflow-hidden active:scale-[0.98]";
-                
                 const safeTitle = game.title.replace(/'/g, "\\'");
+                const idTitle = safeTitle.replace(/\s+/g, '-').replace(/[^a-zA-w0-9-]/g, '');
 
                 card.innerHTML = `
                     <div>
@@ -399,21 +360,18 @@
                             <span class="px-1 py-0.2 bg-slate-950 border border-slate-800 rounded text-rose-400 font-mono">${game.region}</span>
                             <span class="truncate max-w-[60px] uppercase text-slate-500">${game.dev}</span>
                         </div>
-                        <h3 class="brand-font text-[11px] font-bold text-slate-100 group-hover:text-rose-400 transition-colors line-clamp-2 leading-tight tracking-wide uppercase">
-                            ${game.title}
-                        </h3>
+                        <h3 class="brand-font text-[11px] font-bold text-slate-100 group-hover:text-rose-400 transition-colors line-clamp-2 leading-tight tracking-wide uppercase">%TAB%${game.title}</h3>
                     </div>
                     <div class="mt-2 pt-1.5 border-t border-slate-950 flex items-center justify-between">
                         <span class="text-[9px] font-black uppercase text-slate-400 tracking-tighter bg-slate-950 px-1 py-0.5 rounded border border-slate-800">${game.system}</span>
-                        <div class="flex gap-1 items-center" id="actions-${safeTitle.replace(/\s+/g, '-')}">
+                        <div class="flex gap-1 items-center" id="actions-${idTitle}">
                             <label class="bg-rose-600 hover:bg-rose-500 text-white rounded px-2 py-1 text-[10px] font-bold uppercase transition-colors flex items-center gap-0.5 cursor-pointer">
                                 <i data-lucide="upload" class="w-2.5 h-2.5"></i> CARGAR
-                                <input type="file" accept=".zip,.bin,.nes,.smc,.sfc,.n64,.gb,.gbc,.gba,.32x,.gg,.gen,.md,.sms,.pbp,.iso,.chd" class="hidden" 
-                                    onchange="handleLocalROM(this, '${safeTitle}', '${game.system}')">
+                                <input type="file" class="hidden" onchange="handleLocalROM(this, '${safeTitle}', '${game.system}')">
                             </label>
                         </div>
                     </div>
-                `;
+                `.replace('%TAB%', '');
 
                 if (db) {
                     const transaction = db.transaction(["roms"], "readonly");
@@ -421,24 +379,17 @@
                     const request = store.get(game.title);
                     request.onsuccess = (e) => {
                         if (e.target.result) {
-                            const actionContainer = document.getElementById(`actions-${safeTitle.replace(/\s+/g, '-')}`);
+                            const actionContainer = document.getElementById(`actions-${idTitle}`);
                             if (actionContainer) {
                                 actionContainer.innerHTML = `
-                                    <button onclick="playCachedROM('${safeTitle}', '${game.system}')" class="bg-emerald-600 hover:bg-emerald-500 text-white rounded px-2 py-1 text-[10px] font-bold uppercase transition-colors flex items-center gap-0.5">
-                                        <i data-lucide="play" class="w-2.5 h-2.5 fill-white"></i> RUN
-                                    </button>
-                                    <label class="bg-slate-800 hover:bg-slate-700 text-slate-300 rounded p-1 text-[10px] font-bold uppercase transition-colors flex items-center cursor-pointer" title="Cambiar archivo de ROM">
-                                        <i data-lucide="refresh-cw" class="w-2.5 h-2.5"></i>
-                                        <input type="file" accept=".zip,.bin,.nes,.smc,.sfc,.n64,.gb,.gbc,.gba,.32x,.gg,.gen,.md,.sms,.pbp,.iso,.chd" class="hidden" 
-                                            onchange="handleLocalROM(this, '${safeTitle}', '${game.system}')">
-                                    </label>
+                                    <button onclick="playCachedROM('${safeTitle}', '${game.system}')" class="bg-emerald-600 hover:bg-emerald-500 text-white rounded px-2 py-1 text-[10px] font-bold uppercase transition-colors flex items-center gap-0.5"><i data-lucide="play" class="w-2.5 h-2.5 fill-white"></i> RUN</button>
+                                    <label class="bg-slate-800 hover:bg-slate-700 text-slate-300 rounded p-1 text-[10px] font-bold uppercase transition-colors flex items-center cursor-pointer"><i data-lucide="refresh-cw" class="w-2.5 h-2.5"></i><input type="file" class="hidden" onchange="handleLocalROM(this, '${safeTitle}', '${game.system}')"></label>
                                 `;
                                 lucide.createIcons();
                             }
                         }
                     };
                 }
-
                 grid.appendChild(card);
             });
             lucide.createIcons();
@@ -447,16 +398,12 @@
         function handleLocalROM(input, gameTitle, consoleType) {
             if (!input.files || !input.files[0]) return;
             const file = input.files[0];
-
             if (db) {
                 const transaction = db.transaction(["roms"], "readwrite");
                 const store = transaction.objectStore("roms");
                 store.put({ title: gameTitle, fileData: file });
-                transaction.oncomplete = () => {
-                    renderGames(); 
-                };
+                transaction.oncomplete = () => { renderGames(); };
             }
-            
             const localRomUrl = URL.createObjectURL(file);
             launchEmulatorJS(localRomUrl, gameTitle, consoleType);
         }
@@ -466,7 +413,6 @@
             const transaction = db.transaction(["roms"], "readonly");
             const store = transaction.objectStore("roms");
             const request = store.get(gameTitle);
-            
             request.onsuccess = (e) => {
                 const record = e.target.result;
                 if (record && record.fileData) {
@@ -479,24 +425,18 @@
         function launchEmulatorJS(romUrl, gameTitle, consoleType) {
             const emulatorSection = document.getElementById('emulator-section');
             const container = document.getElementById('emulator-container');
-            const titleElement = document.getElementById('emulator-game-title');
-            const sysTag = document.getElementById('emulated-system-tag');
-
-            titleElement.textContent = gameTitle;
-            sysTag.textContent = consoleType;
+            document.getElementById('emulator-game-title').textContent = gameTitle;
+            document.getElementById('emulated-system-tag').textContent = consoleType;
             emulatorSection.classList.remove('hidden');
-
             toggleFullscreen(true);
 
             container.innerHTML = '<div id="ejs-player" style="width:100%; height:100%;"></div>';
-
             window.EJS_player = '#ejs-player';
             window.EJS_core = consoleType; 
             window.EJS_gameUrl = romUrl; 
             window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/'; 
             window.EJS_startOnLoaded = true; 
             window.EJS_fullscreenOnStart = true; 
-            
             window.EJS_style = "background-color: #000; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; z-index: 99; margin: 0; padding: 0;";
 
             const loaderScript = document.createElement('script');
@@ -509,8 +449,7 @@
             for(let i=65; i<=90; i++) {
                 const letter = String.fromCharCode(i);
                 const opt = document.createElement('option');
-                opt.value = letter;
-                opt.textContent = letter;
+                opt.value = letter; opt.textContent = letter;
                 alpha.appendChild(opt);
             }
         }
@@ -522,75 +461,44 @@
 
             const searchInput = document.getElementById('search-input');
             const clearBtn = document.getElementById('clear-search');
-            const closeEmulatorBtn = document.getElementById('close-emulator');
-            const closeEmulatorLeftBtn = document.getElementById('close-emulator-left'); 
 
-            // RUTINA DE PANTALLA COMPLETA PERMANENTE: Re-aplica fullscreen ante cualquier interacción o cambio
             const forceAlwaysFullscreen = () => {
                 if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
                     toggleFullscreen(true);
                 }
             };
 
-            // Escuchar toques, clicks y enfoques para forzar la pantalla completa constantemente
             window.addEventListener('click', forceAlwaysFullscreen);
             window.addEventListener('touchstart', forceAlwaysFullscreen);
             window.addEventListener('focus', forceAlwaysFullscreen);
 
             const handleOrientationChange = () => {
-                const isLandscape = window.matchMedia("(orientation: landscape)").matches;
-                if (isLandscape) {
-                    toggleFullscreen(true);
-                }
+                if (window.matchMedia("(orientation: landscape)").matches) toggleFullscreen(true);
             };
-
-            if (screen.orientation) {
-                screen.orientation.addEventListener('change', handleOrientationChange);
-            } else {
-                window.addEventListener('orientationchange', handleOrientationChange);
-            }
+            if (screen.orientation) screen.orientation.addEventListener('change', handleOrientationChange);
+            else window.addEventListener('orientationchange', handleOrientationChange);
 
             if (window.matchMedia("(orientation: landscape)").matches) {
                 setTimeout(() => toggleFullscreen(true), 500);
             }
 
-            // MODIFICACIÓN REQUERIDA: Los botones de salir únicamente ejecutan la recarga completa de la página web
-            const closeEmulatorAction = () => {
-                window.location.reload();
-            };
-
-            closeEmulatorBtn.addEventListener('click', closeEmulatorAction);
-            closeEmulatorLeftBtn.addEventListener('click', closeEmulatorAction); 
+            const closeEmulatorAction = () => { window.location.reload(); };
+            document.getElementById('close-emulator').addEventListener('click', closeEmulatorAction);
+            document.getElementById('close-emulator-left').addEventListener('click', closeEmulatorAction); 
 
             searchInput.addEventListener('input', (e) => {
                 activeFilters.search = e.target.value;
                 clearBtn.classList.toggle('hidden', !e.target.value);
                 renderGames();
             });
-
             clearBtn.addEventListener('click', () => {
-                searchInput.value = '';
-                activeFilters.search = '';
-                clearBtn.classList.add('hidden');
-                renderGames();
+                searchInput.value = ''; activeFilters.search = '';
+                clearBtn.classList.add('hidden'); renderGames();
             });
-
-            document.getElementById('genre-select').addEventListener('change', (e) => {
-                activeFilters.genre = e.target.value;
-                renderGames();
-            });
-
-            document.getElementById('region-select').addEventListener('change', (e) => {
-                activeFilters.region = e.target.value;
-                renderGames();
-            });
-
-            document.getElementById('alpha-select').addEventListener('change', (e) => {
-                activeFilters.letter = e.target.value;
-                renderGames();
-            });
+            document.getElementById('genre-select').addEventListener('change', (e) => { activeFilters.genre = e.target.value; renderGames(); });
+            document.getElementById('region-select').addEventListener('change', (e) => { activeFilters.region = e.target.value; renderGames(); });
+            document.getElementById('alpha-select').addEventListener('change', (e) => { activeFilters.letter = e.target.value; renderGames(); });
         });
     </script>
 </body>
 </html>
-
