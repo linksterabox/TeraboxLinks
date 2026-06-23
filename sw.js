@@ -1,6 +1,6 @@
 const CACHE_NAME = 'retro-os-cores-v1';
 
-// Recursos estáticos corregidos con rutas relativas para GitHub Pages
+// ✅ RUTAS RELATIVAS OBLIGATORIAS EN GITHUB PAGES
 const INITIAL_ASSETS = [
     './',
     './index.html',
@@ -8,43 +8,30 @@ const INITIAL_ASSETS = [
     'https://unpkg.com/lucide@latest'
 ];
 
-self.addEventListener('install', (e) => {
+self.addEventListener('install', e => {
     e.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(INITIAL_ASSETS);
-        }).then(() => self.skipWaiting())
+        caches.open(CACHE_NAME).then(cache => cache.addAll(INITIAL_ASSETS))
+             .then(() => self.skipWaiting())
     );
 });
 
-self.addEventListener('activate', (e) => {
+self.addEventListener('activate', e => {
     e.waitUntil(self.clients.claim());
 });
 
-self.addEventListener('fetch', (e) => {
+self.addEventListener('fetch', e => {
     const url = e.request.url;
-
-    // Intercepta recursos locales y del emulador CDN para guardarlos dinámicamente al jugar la primera vez
+    // ✅ Guardar dinámicamente emulador y archivos locales
     if (url.includes('emulatorjs.org') || url.includes(location.origin)) {
         e.respondWith(
-            caches.match(e.request).then((cachedResponse) => {
-                if (cachedResponse) {
-                    return cachedResponse;
-                }
-
-                return fetch(e.request).then((networkResponse) => {
-                    if (!networkResponse || networkResponse.status !== 200) {
-                        return networkResponse;
-                    }
-
-                    const responseToCache = networkResponse.clone();
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(e.request, responseToCache);
-                    });
-
-                    return networkResponse;
-                }).catch(() => {
-                    return new Response("Recurso offline no disponible", { status: 503 });
-                });
+            caches.match(e.request).then(cached => {
+                if (cached) return cached;
+                return fetch(e.request).then(net => {
+                    if (!net || net.status !== 200) return net;
+                    const copy = net.clone();
+                    caches.open(CACHE_NAME).then(cache => cache.put(e.request, copy));
+                    return net;
+                }).catch(() => new Response("Sin conexión", { status: 503 }));
             })
         );
     }
