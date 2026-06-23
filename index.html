@@ -57,21 +57,51 @@
             letter-spacing: 0.5px !important;
             transition: transform 0.1s ease, background-color 0.2s ease !important;
         }
+        #close-emulator-left:hover { background-color: #dc2626 !important; }
+        #close-emulator-left:active { transform: scale(0.95) !important; }
 
-        #close-emulator-left:hover {
-            background-color: #dc2626 !important;
+        /* ✅ BARRA DE PROGRESO */
+        #progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #1e293b;
+            z-index: 999999;
+            display: none;
         }
-
-        #close-emulator-left:active {
-            transform: scale(0.95) !important;
+        #progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f43f5e, #ec4899);
+            transition: width 0.2s ease;
+        }
+        #progress-text {
+            position: fixed;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #f1f5f9;
+            background: rgba(15,23,42,0.85);
+            padding: 2px 8px;
+            border-radius: 10px;
+            z-index: 999999;
+            display: none;
         }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 h-screen w-screen flex flex-col md:flex-row antialiased select-none overflow-hidden">
 
+    <!-- ✅ ELEMENTOS DE DESCARGA / CARGA -->
+    <div id="progress-bar-container">
+        <div id="progress-bar-fill"></div>
+    </div>
+    <div id="progress-text"></div>
+
     <div class="portrait-warning fixed inset-0 bg-slate-950 z-[100] hidden flex-col items-center justify-center p-6 text-center bg-cover bg-center bg-no-repeat" 
          style="background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23334155%22 stroke-width=%221%22><rect x=%225%22 y=%222%22 width=%2214%22 height=%2220%22 rx=%222%22/></svg>');">
-        
         <div class="w-16 h-16 bg-rose-600 rounded-full flex items-center justify-center animate-bounce mb-4 shadow-lg shadow-rose-600/50">
             <i data-lucide="rotate-cw" class="w-8 h-8 text-white"></i>
         </div>
@@ -90,8 +120,7 @@
             </div>
         </div>
 
-        <div id="console-menu" class="flex flex-row md:flex-col gap-1 p-2 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto flex-1 custom-scroll items-center md:items-stretch w-full">
-        </div>
+        <div id="console-menu" class="flex flex-row md:flex-col gap-1 p-2 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto flex-1 custom-scroll items-center md:items-stretch w-full"></div>
 
         <div class="p-3 hidden md:block border-t border-slate-800 bg-slate-950/20 text-center">
             <span id="global-counter" class="text-[10px] text-slate-400 font-semibold tracking-wider block"></span>
@@ -99,20 +128,17 @@
     </aside>
 
     <main class="flex-1 flex flex-col h-[calc(100vh-4rem)] md:h-full overflow-hidden relative">
-        
         <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 p-2 flex flex-wrap items-center gap-2 justify-between z-10 shrink-0">
             <div class="relative w-full sm:w-48 md:w-64">
                 <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-500">
                     <i data-lucide="search" class="w-3.5 h-3.5"></i>
                 </div>
-                <input type="text" id="search-input" 
-                    placeholder="Buscar juego..." 
+                <input type="text" id="search-input" placeholder="Buscar juego..." 
                     class="w-full pl-8 pr-8 py-1 bg-slate-950 border border-slate-800 rounded-lg text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-rose-500 text-[11px]">
                 <button id="clear-search" class="absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-500 hover:text-slate-300 hidden">
                     <i data-lucide="x" class="w-3.5 h-3.5"></i>
                 </button>
             </div>
-
             <div class="flex items-center gap-1.5 overflow-x-auto custom-scroll max-w-full py-0.5">
                 <select id="genre-select" class="bg-slate-950 border border-slate-800 text-slate-400 text-[10px] rounded px-2 py-1 focus:outline-none focus:border-rose-500">
                     <option value="all">Todos los Géneros</option>
@@ -124,14 +150,12 @@
                     <option value="Estrategia">Estrategia</option>
                     <option value="Otros">Otros</option>
                 </select>
-
                 <select id="region-select" class="bg-slate-950 border border-slate-800 text-slate-400 text-[10px] rounded px-2 py-1 focus:outline-none">
                     <option value="all">Región: Todas</option>
                     <option value="USA">USA</option>
                     <option value="EUR">Europa</option>
                     <option value="JPN">Japón</option>
                 </select>
-
                 <select id="alpha-select" class="bg-slate-950 border border-slate-800 text-slate-400 text-[10px] rounded px-2 py-1 focus:outline-none">
                     <option value="all">A-Z</option>
                 </select>
@@ -139,14 +163,12 @@
         </header>
 
         <div class="flex-1 relative overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
-            
             <div id="games-container" class="absolute inset-0 p-4 overflow-y-auto custom-scroll pb-12">
                 <div id="no-results" class="hidden text-center py-12">
                     <i data-lucide="search-slash" class="w-10 h-10 text-slate-600 mx-auto mb-2"></i>
                     <h3 class="text-sm font-bold text-slate-400">No hay roms coincidentes</h3>
                 </div>
-                <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-                </div>
+                <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"></div>
             </div>
 
             <section id="emulator-section" class="hidden fixed inset-0 bg-black z-[99] flex flex-col justify-between w-screen h-screen">
@@ -154,7 +176,6 @@
                     <i data-lucide="arrow-left" class="w-3 h-3 text-white" style="stroke-width: 3.5px;"></i>
                     <span>SALIR</span>
                 </button>
-
                 <div class="bg-slate-900/80 border-b border-slate-800 px-4 py-1.5 flex items-center justify-between shrink-0 z-[100] absolute top-0 left-0 w-full backdrop-blur-sm opacity-20 hover:opacity-100 transition-opacity duration-300 pl-24">
                     <div class="flex items-center gap-2">
                         <span id="emulated-system-tag" class="text-[9px] font-black bg-rose-600 text-white px-1.5 py-0.5 rounded tracking-widest uppercase">GBA</span>
@@ -164,7 +185,6 @@
                         <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Salir al Menú
                     </button>
                 </div>
-                
                 <div class="w-full h-full bg-black flex items-center justify-center relative overflow-hidden">
                     <div id="emulator-container" class="w-full h-full bg-black absolute inset-0"></div>
                 </div>
@@ -176,20 +196,33 @@
                 <span class="flex items-center gap-1"><b class="bg-slate-800 text-slate-300 px-1 rounded font-mono text-[9px] border border-slate-700">A</b> Seleccionar</span>
                 <span class="flex items-center gap-1"><b class="bg-slate-800 text-slate-300 px-1 rounded font-mono text-[9px] border border-slate-700">L/R</b> Cambiar Sistema</span>
             </div>
-            <div class="hidden sm:block font-medium tracking-wider">
-                © 2026 RETRO OS • PRESERVATION ARCHIVE
-            </div>
+            <div class="hidden sm:block font-medium tracking-wider">© 2026 RETRO OS • PRESERVATION ARCHIVE</div>
         </footer>
     </main>
 
     <script>
-        // Corrección de registro relativa a GitHub Pages (usa './sw.js')
+        // ✅ REGISTRO DE SW CORREGIDO RUTA RELATIVA PARA GITHUB PAGES
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Retro OS Cache Engine Activo ✔️', reg.scope))
-                    .catch(err => console.error('Error al registrar caché offline ❌', err));
+                    .then(reg => console.log('✅ Retro OS Cache Activo', reg.scope))
+                    .catch(err => console.error('❌ Error caché:', err));
             });
+        }
+
+        // ✅ FUNCIONES PARA LA BARRA DE PROGRESO
+        function setProgress(porcentaje, texto = "Cargando...") {
+            const bar = document.getElementById('progress-bar-container');
+            const fill = document.getElementById('progress-bar-fill');
+            const txt = document.getElementById('progress-text');
+            bar.style.display = 'block';
+            txt.style.display = 'block';
+            fill.style.width = porcentaje + '%';
+            txt.textContent = texto + ' ' + Math.round(porcentaje) + '%';
+        }
+        function hideProgress() {
+            document.getElementById('progress-bar-container').style.display = 'none';
+            document.getElementById('progress-text').style.display = 'none';
         }
 
         const consoleDetails = {
@@ -276,117 +309,89 @@
         const dbRequest = indexedDB.open("RetroOS_ROMs_Cache", 1);
         dbRequest.onupgradeneeded = (e) => {
             let database = e.target.result;
-            if (!database.objectStoreNames.contains("roms")) {
-                database.createObjectStore("roms", { keyPath: "title" });
-            }
+            if (!database.objectStoreNames.contains("roms")) database.createObjectStore("roms", { keyPath: "title" });
         };
-        dbRequest.onsuccess = (e) => {
-            db = e.target.result;
-            renderGames();
-        };
+        dbRequest.onsuccess = (e) => { db = e.target.result; renderGames(); };
 
-        function cleanString(str) {
-            if (!str) return '';
-            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-        }
-
+        function cleanString(str) { return str ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() : ''; }
         function toggleFullscreen(enter = true) {
-            const docEl = document.documentElement;
-            if (enter) {
-                if (docEl.requestFullscreen) docEl.requestFullscreen();
-                else if (docEl.mozRequestFullScreen) docEl.mozRequestFullScreen();
-                else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
-                else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
-            } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-                else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
-                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                else if (document.msExitFullscreen) document.msExitFullscreen();
-            }
+            const d = document.documentElement;
+            enter ? (d.requestFullscreen?.() || d.mozRequestFullScreen?.() || d.webkitRequestFullscreen?.() || d.msRequestFullscreen?.())
+                  : (document.exitFullscreen?.() || document.mozCancelFullScreen?.() || document.webkitExitFullscreen?.() || document.msExitFullscreen?.());
         }
 
         function buildConsoleMenu() {
             const menu = document.getElementById('console-menu');
             menu.innerHTML = '';
-            
             Object.keys(consoleDetails).forEach(sysKey => {
                 const sys = consoleDetails[sysKey];
-                const button = document.createElement('button');
-                button.setAttribute('data-system', sysKey);
-                button.className = "flex items-center gap-2 md:gap-3 px-3 py-1.5 md:py-2.5 rounded-xl text-[11px] font-bold tracking-wide transition-all uppercase shrink-0 text-left w-auto md:w-full border " + 
+                const btn = document.createElement('button');
+                btn.dataset.system = sysKey;
+                btn.className = "flex items-center gap-2 md:gap-3 px-3 py-1.5 md:py-2.5 rounded-xl text-[11px] font-bold tracking-wide transition-all uppercase shrink-0 text-left w-auto md:w-full border " + 
                     (activeFilters.console === sysKey 
                         ? `bg-gradient-to-r ${sys.color} text-white border-rose-500 shadow-md shadow-black/50` 
                         : "bg-slate-950/40 border-slate-800 text-slate-400 hover:bg-slate-800/50 hover:text-slate-200");
-                
-                button.innerHTML = `
-                    <i data-lucide="${sys.icon}" class="w-3.5 h-3.5 shrink-0 ${activeFilters.console === sysKey ? 'text-rose-400' : ''}"></i>
-                    <span class="whitespace-nowrap truncate">${sys.name}</span>
-                `;
-                button.addEventListener('click', () => { activeFilters.console = sysKey; buildConsoleMenu(); renderGames(); });
-                menu.appendChild(button);
+                btn.innerHTML = `<i data-lucide="${sys.icon}" class="w-3.5 h-3.5 shrink-0 ${activeFilters.console === sysKey ? 'text-rose-400' : ''}"></i><span class="whitespace-nowrap truncate">${sys.name}</span>`;
+                btn.onclick = () => { activeFilters.console = sysKey; buildConsoleMenu(); renderGames(); };
+                menu.appendChild(btn);
             });
             lucide.createIcons();
         }
 
         function renderGames() {
             const grid = document.getElementById('games-grid');
-            const noResults = document.getElementById('no-results');
+            const noRes = document.getElementById('no-results');
             grid.innerHTML = '';
 
-            const filtered = gbaDatabase.filter(game => {
-                const searchCleaned = cleanString(activeFilters.search);
-                const matchesSearch = !activeFilters.search || cleanString(game.title).includes(searchCleaned) || cleanString(game.dev).includes(searchCleaned);
-                const matchesRegion = activeFilters.region === 'all' || game.region === activeFilters.region;
-                const matchesLetter = activeFilters.letter === 'all' || game.title.toUpperCase().startsWith(activeFilters.letter);
-                const matchesGenre = activeFilters.genre === 'all' || game.genre === activeFilters.genre;
-                const matchesConsole = activeFilters.console === 'all' || game.system === activeFilters.console;
-                return matchesSearch && matchesRegion && matchesLetter && matchesGenre && matchesConsole;
+            const filtered = gbaDatabase.filter(g => {
+                const s = cleanString(activeFilters.search);
+                return (!s || cleanString(g.title).includes(s) || cleanString(g.dev).includes(s))
+                    && (activeFilters.region === 'all' || g.region === activeFilters.region)
+                    && (activeFilters.letter === 'all' || g.title.toUpperCase().startsWith(activeFilters.letter))
+                    && (activeFilters.genre === 'all' || g.genre === activeFilters.genre)
+                    && (activeFilters.console === 'all' || g.system === activeFilters.console);
             });
 
-            document.getElementById('global-counter').textContent = `${filtered.length} / ${gbaDatabase.length} ROMS FILTRADAS`;
+            document.getElementById('global-counter').textContent = `${filtered.length} / ${gbaDatabase.length} ROMS`;
+            noRes.classList.toggle('hidden', filtered.length > 0);
 
-            if (filtered.length === 0) { noResults.classList.remove('hidden'); return; }
-            noResults.classList.add('hidden');
-
-            filtered.forEach(game => {
+            filtered.forEach(g => {
+                const safe = g.title.replace(/'/g, "\\'");
+                const id = safe.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
                 const card = document.createElement('div');
                 card.className = "bg-slate-900/60 backdrop-blur border border-slate-800/80 hover:border-rose-500 rounded-xl p-3 flex flex-col justify-between transition-all group relative overflow-hidden active:scale-[0.98]";
-                const safeTitle = game.title.replace(/'/g, "\\'");
-                const idTitle = safeTitle.replace(/\s+/g, '-').replace(/[^a-zA-w0-9-]/g, '');
-
                 card.innerHTML = `
                     <div>
                         <div class="flex items-center justify-between gap-1 text-[9px] mb-1 text-slate-400 font-bold">
-                            <span class="px-1 py-0.2 bg-slate-950 border border-slate-800 rounded text-rose-400 font-mono">${game.region}</span>
-                            <span class="truncate max-w-[60px] uppercase text-slate-500">${game.dev}</span>
+                            <span class="px-1 py-0.2 bg-slate-950 border border-slate-800 rounded text-rose-400 font-mono">${g.region}</span>
+                            <span class="truncate max-w-[60px] uppercase text-slate-500">${g.dev}</span>
                         </div>
-                        <h3 class="brand-font text-[11px] font-bold text-slate-100 group-hover:text-rose-400 transition-colors line-clamp-2 leading-tight tracking-wide uppercase">%TAB%${game.title}</h3>
+                        <h3 class="brand-font text-[11px] font-bold text-slate-100 group-hover:text-rose-400 transition-colors line-clamp-2 leading-tight tracking-wide uppercase">${g.title}</h3>
                     </div>
                     <div class="mt-2 pt-1.5 border-t border-slate-950 flex items-center justify-between">
-                        <span class="text-[9px] font-black uppercase text-slate-400 tracking-tighter bg-slate-950 px-1 py-0.5 rounded border border-slate-800">${game.system}</span>
-                        <div class="flex gap-1 items-center" id="actions-${idTitle}">
+                        <span class="text-[9px] font-black uppercase text-slate-400 tracking-tighter bg-slate-950 px-1 py-0.5 rounded border border-slate-800">${g.system}</span>
+                        <div class="flex gap-1 items-center" id="actions-${id}">
                             <label class="bg-rose-600 hover:bg-rose-500 text-white rounded px-2 py-1 text-[10px] font-bold uppercase transition-colors flex items-center gap-0.5 cursor-pointer">
                                 <i data-lucide="upload" class="w-2.5 h-2.5"></i> CARGAR
-                                <input type="file" class="hidden" onchange="handleLocalROM(this, '${safeTitle}', '${game.system}')">
+                                <input type="file" class="hidden" onchange="handleLocalROM(this, '${safe}', '${g.system}')">
                             </label>
                         </div>
                     </div>
-                `.replace('%TAB%', '');
-
+                `;
                 if (db) {
-                    const transaction = db.transaction(["roms"], "readonly");
-                    const store = transaction.objectStore("roms");
-                    const request = store.get(game.title);
-                    request.onsuccess = (e) => {
+                    const tx = db.transaction(["roms"], "readonly");
+                    tx.objectStore("roms").get(g.title).onsuccess = e => {
                         if (e.target.result) {
-                            const actionContainer = document.getElementById(`actions-${idTitle}`);
-                            if (actionContainer) {
-                                actionContainer.innerHTML = `
-                                    <button onclick="playCachedROM('${safeTitle}', '${game.system}')" class="bg-emerald-600 hover:bg-emerald-500 text-white rounded px-2 py-1 text-[10px] font-bold uppercase transition-colors flex items-center gap-0.5"><i data-lucide="play" class="w-2.5 h-2.5 fill-white"></i> RUN</button>
-                                    <label class="bg-slate-800 hover:bg-slate-700 text-slate-300 rounded p-1 text-[10px] font-bold uppercase transition-colors flex items-center cursor-pointer"><i data-lucide="refresh-cw" class="w-2.5 h-2.5"></i><input type="file" class="hidden" onchange="handleLocalROM(this, '${safeTitle}', '${game.system}')"></label>
-                                `;
-                                lucide.createIcons();
-                            }
+                            document.getElementById(`actions-${id}`).innerHTML = `
+                                <button onclick="playCachedROM('${safe}', '${g.system}')" class="bg-emerald-600 hover:bg-emerald-500 text-white rounded px-2 py-1 text-[10px] font-bold uppercase transition-colors flex items-center gap-0.5">
+                                    <i data-lucide="play" class="w-2.5 h-2.5 fill-white"></i> RUN
+                                </button>
+                                <label class="bg-slate-800 hover:bg-slate-700 text-slate-300 rounded p-1 text-[10px] font-bold uppercase transition-colors flex items-center cursor-pointer">
+                                    <i data-lucide="refresh-cw" class="w-2.5 h-2.5"></i>
+                                    <input type="file" class="hidden" onchange="handleLocalROM(this, '${safe}', '${g.system}')">
+                                </label>
+                            `;
+                            lucide.createIcons();
                         }
                     };
                 }
@@ -395,62 +400,92 @@
             lucide.createIcons();
         }
 
+        // ✅ CARGA CON BARRA DE PROGRESO
         function handleLocalROM(input, gameTitle, consoleType) {
-            if (!input.files || !input.files[0]) return;
+            if (!input.files?.[0]) return;
             const file = input.files[0];
-            if (db) {
-                const transaction = db.transaction(["roms"], "readwrite");
-                const store = transaction.objectStore("roms");
-                store.put({ title: gameTitle, fileData: file });
-                transaction.oncomplete = () => { renderGames(); };
-            }
-            const localRomUrl = URL.createObjectURL(file);
-            launchEmulatorJS(localRomUrl, gameTitle, consoleType);
+            const reader = new FileReader();
+
+            // Actualizar barra mientras lee el archivo
+            reader.onprogress = e => {
+                if (e.lengthComputable) {
+                    const pct = (e.loaded / e.total) * 100;
+                    setProgress(pct, "Leyendo archivo");
+                }
+            };
+
+            reader.onloadend = () => {
+                setProgress(100, "Guardando...");
+                if (db) {
+                    const tx = db.transaction(["roms"], "readwrite");
+                    tx.objectStore("roms").put({ title: gameTitle, fileData: file });
+                    tx.oncomplete = () => {
+                        hideProgress();
+                        const url = URL.createObjectURL(file);
+                        launchEmulatorJS(url, gameTitle, consoleType);
+                    };
+                } else {
+                    hideProgress();
+                    const url = URL.createObjectURL(file);
+                    launchEmulatorJS(url, gameTitle, consoleType);
+                }
+            };
+
+            reader.readAsArrayBuffer(file);
         }
 
         function playCachedROM(gameTitle, consoleType) {
             if (!db) return;
-            const transaction = db.transaction(["roms"], "readonly");
-            const store = transaction.objectStore("roms");
-            const request = store.get(gameTitle);
-            request.onsuccess = (e) => {
-                const record = e.target.result;
-                if (record && record.fileData) {
-                    const localRomUrl = URL.createObjectURL(record.fileData);
-                    launchEmulatorJS(localRomUrl, gameTitle, consoleType);
+            setProgress(10, "Cargando desde caché");
+            const tx = db.transaction(["roms"], "readonly");
+            tx.objectStore("roms").get(gameTitle).onsuccess = e => {
+                hideProgress();
+                const rec = e.target.result;
+                if (rec?.fileData) {
+                    const url = URL.createObjectURL(rec.fileData);
+                    launchEmulatorJS(url, gameTitle, consoleType);
                 }
             };
         }
 
         function launchEmulatorJS(romUrl, gameTitle, consoleType) {
-            const emulatorSection = document.getElementById('emulator-section');
-            const container = document.getElementById('emulator-container');
+            setProgress(30, "Preparando emulador");
+            const sec = document.getElementById('emulator-section');
+            const cont = document.getElementById('emulator-container');
             document.getElementById('emulator-game-title').textContent = gameTitle;
             document.getElementById('emulated-system-tag').textContent = consoleType;
-            emulatorSection.classList.remove('hidden');
+            sec.classList.remove('hidden');
             toggleFullscreen(true);
 
-            container.innerHTML = '<div id="ejs-player" style="width:100%; height:100%;"></div>';
+            cont.innerHTML = '<div id="ejs-player" style="width:100%;height:100%;"></div>';
             window.EJS_player = '#ejs-player';
             window.EJS_core = consoleType; 
             window.EJS_gameUrl = romUrl; 
             window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/'; 
             window.EJS_startOnLoaded = true; 
             window.EJS_fullscreenOnStart = true; 
-            window.EJS_style = "background-color: #000; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; z-index: 99; margin: 0; padding: 0;";
+            window.EJS_style = "background:#000;width:100vw;height:100vh;position:fixed;top:0;left:0;z-index:99;margin:0;padding:0;";
 
-            const loaderScript = document.createElement('script');
-            loaderScript.src = 'https://cdn.emulatorjs.org/stable/data/loader.js';
-            container.appendChild(loaderScript);
+            // Simular progreso mientras carga núcleos
+            let prog = 30;
+            const sim = setInterval(() => {
+                prog += Math.random() * 12;
+                if (prog >= 95) { prog = 100; clearInterval(sim); setTimeout(hideProgress, 600); }
+                setProgress(prog, "Cargando núcleo y datos");
+            }, 150);
+
+            const s = document.createElement('script');
+            s.src = 'https://cdn.emulatorjs.org/stable/data/loader.js';
+            cont.appendChild(s);
         }
 
         function populateAlphaSelect() {
-            const alpha = document.getElementById('alpha-select');
+            const sel = document.getElementById('alpha-select');
             for(let i=65; i<=90; i++) {
-                const letter = String.fromCharCode(i);
                 const opt = document.createElement('option');
-                opt.value = letter; opt.textContent = letter;
-                alpha.appendChild(opt);
+                opt.value = String.fromCharCode(i);
+                opt.textContent = opt.value;
+                sel.appendChild(opt);
             }
         }
 
@@ -459,45 +494,37 @@
             buildConsoleMenu();
             renderGames();
 
-            const searchInput = document.getElementById('search-input');
+            const search = document.getElementById('search-input');
             const clearBtn = document.getElementById('clear-search');
 
-            const forceAlwaysFullscreen = () => {
-                if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) {
-                    toggleFullscreen(true);
-                }
+            const forceFS = () => {
+                if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement && !document.msFullscreenElement) toggleFullscreen(true);
             };
+            window.addEventListener('click', forceFS);
+            window.addEventListener('touchstart', forceFS);
+            window.addEventListener('focus', forceFS);
 
-            window.addEventListener('click', forceAlwaysFullscreen);
-            window.addEventListener('touchstart', forceAlwaysFullscreen);
-            window.addEventListener('focus', forceAlwaysFullscreen);
+            const orientChange = () => { if (window.matchMedia("(orientation: landscape)").matches) toggleFullscreen(true); };
+            screen.orientation?.addEventListener('change', orientChange);
+            window.addEventListener('orientationchange', orientChange);
+            if (window.matchMedia("(orientation: landscape)").matches) setTimeout(()=>toggleFullscreen(true), 500);
 
-            const handleOrientationChange = () => {
-                if (window.matchMedia("(orientation: landscape)").matches) toggleFullscreen(true);
-            };
-            if (screen.orientation) screen.orientation.addEventListener('change', handleOrientationChange);
-            else window.addEventListener('orientationchange', handleOrientationChange);
+            const close = () => window.location.reload();
+            document.getElementById('close-emulator').addEventListener('click', close);
+            document.getElementById('close-emulator-left').addEventListener('click', close);
 
-            if (window.matchMedia("(orientation: landscape)").matches) {
-                setTimeout(() => toggleFullscreen(true), 500);
-            }
-
-            const closeEmulatorAction = () => { window.location.reload(); };
-            document.getElementById('close-emulator').addEventListener('click', closeEmulatorAction);
-            document.getElementById('close-emulator-left').addEventListener('click', closeEmulatorAction); 
-
-            searchInput.addEventListener('input', (e) => {
+            search.addEventListener('input', e => {
                 activeFilters.search = e.target.value;
                 clearBtn.classList.toggle('hidden', !e.target.value);
                 renderGames();
             });
             clearBtn.addEventListener('click', () => {
-                searchInput.value = ''; activeFilters.search = '';
+                search.value = ''; activeFilters.search = '';
                 clearBtn.classList.add('hidden'); renderGames();
             });
-            document.getElementById('genre-select').addEventListener('change', (e) => { activeFilters.genre = e.target.value; renderGames(); });
-            document.getElementById('region-select').addEventListener('change', (e) => { activeFilters.region = e.target.value; renderGames(); });
-            document.getElementById('alpha-select').addEventListener('change', (e) => { activeFilters.letter = e.target.value; renderGames(); });
+            document.getElementById('genre-select').addEventListener('change', e => { activeFilters.genre = e.target.value; renderGames(); });
+            document.getElementById('region-select').addEventListener('change', e => { activeFilters.region = e.target.value; renderGames(); });
+            document.getElementById('alpha-select').addEventListener('change', e => { activeFilters.letter = e.target.value; renderGames(); });
         });
     </script>
 </body>
